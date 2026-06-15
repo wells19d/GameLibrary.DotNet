@@ -2,6 +2,9 @@
 
 A personal game library API built with ASP.NET Core, Entity Framework Core, and SQLite.
 
+## Goal
+- I'm trying to learn how to build a RESTful API with ASP.NET Core and Entity Framework Core, and I wanted to create a simple project to practice. This API allows users to manage a game collection by performing CRUD operations on game records.
+
 ## Features
 
 - Create games
