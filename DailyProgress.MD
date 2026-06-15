@@ -1,6 +1,6 @@
 ### My Journey
 
-#### Day 1: Research and Environment Setup
+#### Session 1: Research and Environment Setup
 
 ##### What was done
 - Researched the .NET ecosystem and application flow
@@ -24,7 +24,7 @@
 
 ---
 
-#### Day 2: Models, Controllers, and CRUD
+#### Session 2: Models, Controllers, and CRUD
 
 ##### What was done
 - Created Game model and GamesController
@@ -49,7 +49,7 @@
 
 ---
 
-#### Day 3: Git, Validation, and Refactoring
+#### Session 3: Git, Validation, and Refactoring
 
 ##### What was done
 - Initialized Git repository and connected project to GitHub
@@ -73,3 +73,7 @@
 - Understanding migration workflow
 - Determining the best update strategy between PUT and PATCH
 - Working through DateTime formatting requirements
+
+---
+
+#### Session 4: 
