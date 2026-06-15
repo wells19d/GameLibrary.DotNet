@@ -26,10 +26,15 @@ A personal game library API built with ASP.NET Core, Entity Framework Core, and 
 A game contains:
 
 - Title
-- Subtitle
+- Summary
 - Genre
 - Rating
+- Developer
+- Publisher
+- Franchise
 - Review
+- Release Date
+- Early Access
 - Cover Image
 
 ## Running the Project
