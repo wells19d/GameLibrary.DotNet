@@ -59,6 +59,7 @@
 - Installed dotnet-ef and added migration support
 - Refactored Game model and updated database schema
 - Removed PATCH endpoint
+- Connected GitHub Desktop to manage commits and branches faster
 
 ##### What we did / learned
 - Learned Git and GitHub workflow
