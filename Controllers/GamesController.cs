@@ -17,20 +17,22 @@ namespace GameLibrary.DotNet.Controllers
 
 
         // This gets the games array
-        // (by case type and search value)
+        // Supports filtering, sorting, and pagination
         [HttpGet]
         public List<Game> GetGames(
-            string? filterBy,
-            string? search,
-            bool? earlyAccess)
+            string? filterBy, // added for filtering
+            string? search, // added for filtering
+            bool? earlyAccess, // added for filtering
+            int page = 1, // added for pagination
+            int pageSize = 20 // added for pagination
+            )
         {
             var games = _context.Games.AsQueryable();
 
+            // Now we are going to filter the games based on a case type and a search value
             if (!string.IsNullOrWhiteSpace(filterBy) && !string.IsNullOrWhiteSpace(search))
             {
                 switch (filterBy.ToLower())
-
-
                 {
                     case "title":
                         // returns by title
@@ -48,7 +50,6 @@ namespace GameLibrary.DotNet.Controllers
                         {
                             games = games.Where(game => game.Rating >= parsedRating);
                         }
-
                         break;
 
                     case "studio":
@@ -67,7 +68,7 @@ namespace GameLibrary.DotNet.Controllers
 
                     case "release":
                         // returns games filtered by date
-                        //YYYY-MM-DD
+                        // YYYY-MM-DD
                         if (DateTime.TryParse(search, out DateTime parsedDate))
                         {
                             games = games.Where(game =>
@@ -83,6 +84,29 @@ namespace GameLibrary.DotNet.Controllers
             {
                 games = games.Where(game => game.EarlyAccess == earlyAccess.Value);
             }
+
+            // Now we are going to order the games by title, removing "The "
+            games = games.OrderBy(game =>
+                game.Title.StartsWith("The ")
+                    ? game.Title.Substring(4)
+                    : game.Title
+            );
+
+            // Let's protect it so they cannot access page 0
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            // Let's force limit the max the user can call.
+            if (pageSize > 50)
+            {
+                pageSize = 50;
+            }
+
+            // Now, let's paginate the results. By default, page 1 returns the first 20 titles.
+            var skipAmount = (page - 1) * pageSize;
+            games = games.Skip(skipAmount).Take(pageSize);
 
             return games.ToList();
         }

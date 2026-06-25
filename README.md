@@ -12,10 +12,19 @@ A personal game library API built with ASP.NET Core, Entity Framework Core, and 
 - View a single game
 - Filter games by title, genre, rating, studio (Publisher, Developer, Franchise), or release date
 - Update games
-- ~~Partially update games (PATCH endpoint)~~
 - Delete games
-- SQLite database persistence
-- Swagger API documentation
+
+## API Improvements
+
+- Initial sorting by alphabetical order by title
+  - Ignores "The " when sorting titles
+- Pagination for limiting the number of games returned in a single request
+  - Protects against page 0 requests
+  - Defaults to 20 games per page
+  - Maxes out at 50 games per page
+
+## Removals 
+- Partially update games (PATCH endpoint)
 
 ## Tech Stack
 
@@ -52,6 +61,6 @@ A game contains:
 
 - Validation
 - Authentication
-- Search and filtering
-- Pagination
+- ~~Search and filtering~~
+- ~~Pagination~~
 - Azure deployment
