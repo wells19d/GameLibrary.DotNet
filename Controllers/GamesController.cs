@@ -1,4 +1,5 @@
 ﻿using GameLibrary.DotNet.Data;
+using GameLibrary.DotNet.DTOs;
 using GameLibrary.DotNet.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -142,8 +143,28 @@ namespace GameLibrary.DotNet.Controllers
 
         // This saves a new game
         [HttpPost]
-        public Game CreateGame(Game game)
+
+        // Old method accepted Game directly, including Id
+        // Replaced with CreateGameDto to control what fields can be submitted
+        // public Game CreateGame(Game game)
+
+        public Game CreateGame(CreateGameDto gameDto) // Using updated DTO
         {
+            var game = new Game
+            {
+                Title = gameDto.Title,
+                Summary = gameDto.Summary ?? string.Empty,
+                Genre = gameDto.Genre,
+                Rating = gameDto.Rating,
+                Developer = gameDto.Developer ?? string.Empty,
+                Publisher = gameDto.Publisher ?? string.Empty,
+                Franchise = gameDto.Franchise ?? string.Empty,
+                Review = gameDto.Review ?? string.Empty,
+                ReleaseDate = gameDto.ReleaseDate,
+                EarlyAccess = gameDto.EarlyAccess,
+                CoverImage = gameDto.CoverImage ?? string.Empty
+            };
+
             _context.Games.Add(game);
             _context.SaveChanges();
 
@@ -154,7 +175,10 @@ namespace GameLibrary.DotNet.Controllers
         // This updates a game by id.
         // (whole object is needed)
         [HttpPut("{id}")]
-        public List<Game> UpdateGame(int id, Game updateGame)
+        // Old method accepted Game directly, including Id
+        // Replaced with UpdateGameDto to control what fields can be submitted
+        //public List<Game> UpdateGame(int id, Game updateGame)
+        public List<Game> UpdateGame(int id, UpdateGameDTO updateGame) // Using updated DTO
         {
             var game = _context.Games.FirstOrDefault(g => g.Id == id);
 
@@ -164,17 +188,16 @@ namespace GameLibrary.DotNet.Controllers
             }
 
             game.Title = updateGame.Title;
-            game.Summary = updateGame.Summary;
+            game.Summary = updateGame.Summary ?? string.Empty;
             game.Genre = updateGame.Genre;
             game.Rating = updateGame.Rating;
-            game.Developer = updateGame.Developer;
-            game.Publisher = updateGame.Publisher;
-            game.Franchise = updateGame.Franchise;
-            game.Review = updateGame.Review;
+            game.Developer = updateGame.Developer ?? string.Empty;
+            game.Publisher = updateGame.Publisher ?? string.Empty;
+            game.Franchise = updateGame.Franchise ?? string.Empty;
+            game.Review = updateGame.Review ?? string.Empty;
             game.ReleaseDate = updateGame.ReleaseDate;
             game.EarlyAccess = updateGame.EarlyAccess;
-            game.CoverImage = updateGame.CoverImage;
-
+            game.CoverImage = updateGame.CoverImage ?? string.Empty;
             _context.SaveChanges();
 
             return _context.Games.ToList();
