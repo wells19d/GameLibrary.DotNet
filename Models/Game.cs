@@ -4,7 +4,7 @@ namespace GameLibrary.DotNet.Models
     public class Game
     {
         public int Id { get; set; }
-        
+
         [Required]
         [StringLength(100)]
         public string Title { get; set; } = string.Empty;
@@ -16,7 +16,7 @@ namespace GameLibrary.DotNet.Models
         public string Genre { get; set; } = string.Empty;
 
         [Range(1, 10)]
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         public string Developer { get; set; } = string.Empty;
 

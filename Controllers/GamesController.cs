@@ -1,7 +1,6 @@
 ﻿using GameLibrary.DotNet.Data;
 using GameLibrary.DotNet.Models;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace GameLibrary.DotNet.Controllers
 {
@@ -16,12 +15,79 @@ namespace GameLibrary.DotNet.Controllers
             _context = context;
         }
 
+
+        // This gets the games array
+        // (by case type and search value)
         [HttpGet]
-        public List<Game> GetGames()
+        public List<Game> GetGames(
+            string? filterBy,
+            string? search,
+            bool? earlyAccess)
         {
-            return _context.Games.ToList();
+            var games = _context.Games.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filterBy) && !string.IsNullOrWhiteSpace(search))
+            {
+                switch (filterBy.ToLower())
+
+
+                {
+                    case "title":
+                        // returns by title
+                        games = games.Where(game => game.Title.ToLower().Contains(search.ToLower()));
+                        break;
+
+                    case "genre":
+                        // returns by genre
+                        games = games.Where(game => game.Genre.ToLower().Contains(search.ToLower()));
+                        break;
+
+                    case "rating":
+                        // returns by rating - value is a number
+                        if (double.TryParse(search, out double parsedRating))
+                        {
+                            games = games.Where(game => game.Rating >= parsedRating);
+                        }
+
+                        break;
+
+                    case "studio":
+                        // returns publisher || developer || franchise
+                        games = games.Where(game =>
+                            (game.Developer != null &&
+                             game.Developer.ToLower().Contains(search.ToLower()))
+                            ||
+                            (game.Publisher != null &&
+                             game.Publisher.ToLower().Contains(search.ToLower()))
+                            ||
+                            (game.Franchise != null &&
+                             game.Franchise.ToLower().Contains(search.ToLower()))
+                        );
+                        break;
+
+                    case "release":
+                        // returns games filtered by date
+                        //YYYY-MM-DD
+                        if (DateTime.TryParse(search, out DateTime parsedDate))
+                        {
+                            games = games.Where(game =>
+                                game.ReleaseDate.HasValue &&
+                                game.ReleaseDate.Value.Date >= parsedDate.Date
+                            );
+                        }
+                        break;
+                }
+            }
+
+            if (earlyAccess.HasValue)
+            {
+                games = games.Where(game => game.EarlyAccess == earlyAccess.Value);
+            }
+
+            return games.ToList();
         }
 
+        // This saves a new game
         [HttpPost]
         public Game CreateGame(Game game)
         {
@@ -31,11 +97,9 @@ namespace GameLibrary.DotNet.Controllers
             return game;
         }
 
-        // Note is no longer needed since we've removed PATCH
-        //[SwaggerOperation(
-        //    Summary = "Fully updates the game",
-        //    Description = "Send the complete Game object. Any fields not provided may be overwritten."
-        //)]
+
+        // This updates a game by id.
+        // (whole object is needed)
         [HttpPut("{id}")]
         public List<Game> UpdateGame(int id, Game updateGame)
         {
@@ -63,7 +127,9 @@ namespace GameLibrary.DotNet.Controllers
             return _context.Games.ToList();
         }
 
-        // We removed PATCH. This was added for learning purposes.
+        // Originally had an option that we could just update one field, 
+        // but it could cause problems, so we removed PATCH.
+
         // A simple PATCH implementation cannot distinguish between:
         //   - a field not being sent
         //   - a field intentionally being set to an empty value
@@ -125,6 +191,7 @@ namespace GameLibrary.DotNet.Controllers
         //}
 
 
+        // This deletes a game by id
         [HttpDelete("{id}")]
         public List<Game> DeleteGame(int id)
         {
