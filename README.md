@@ -23,9 +23,10 @@ A personal game library API built with ASP.NET Core, Entity Framework Core, and 
   - Defaults to 20 games per page
   - Maxes out at 50 games per page
   - Returns metadata page, page size, total games, total pages, and the array of filtered games
-- CreateGameDto:
+- CreateGameDto & UpdateGameDto:
   - POST no longer accepts Game directly.
   - POST accepts CreateGameDto.
+  - PUT accepts UpdateGameDto.
   - Controller builds the real Game manually.
 
 ## Removals 
@@ -69,7 +70,3 @@ A game contains:
 - ~~Search and filtering~~
 - ~~Pagination~~
 - Azure deployment
-
-Session 8 – Validation cleanup
-Session 9 – Error handling / better status codes
-Session 10 – Authentication intro
