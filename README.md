@@ -70,3 +70,31 @@ A game contains:
 - ~~Search and filtering~~
 - ~~Pagination~~
 - Azure deployment
+
+## Sessions
+
+### Completed
+
+- Session 1 - Initial project setup
+  - Created the ASP.NET Core Web API project. Got Swagger running and tested the default WeatherForecast endpoint.
+
+- Session 2 - Basic model/controller
+  - Created a Game model and GamesController with basic CRUD-style endpoints. Started with simple test data before moving to a database.
+
+- Session 3 - Database / EF Core / migrations
+  - Added Entity Framework Core and SQLite. Created the GameLibraryContext and added migrations to create the database. Updated the GamesController to use the database instead of temporary test data.
+
+- Session 4 - Search and Filtering
+  - Added search and filtering capabilities to the GET /games endpoint. Users can filter games by title, genre, rating, studio (Publisher, Developer, Franchise), release date, or early access.
+
+- Session 5 - Pagination & Sorting
+  - Added pagination and sorting to the GET /games endpoint. Users can specify the page number and page size, and results are sorted alphabetically by title while ignoring leading "The ".
+
+- Session 6 - DTOs & Model Binding
+  - Added CreateGameDto and UpdateGameDto to the POST and PUT endpoints. The controller now maps DTO fields into the real Game model manually, preventing the request body from controlling Id.
+
+### Upcoming
+
+- Session 7 – Validation cleanup
+- Session 8 – Error handling / better status codes
+- Session 9 – Authentication intro
