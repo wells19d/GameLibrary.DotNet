@@ -98,3 +98,7 @@ A game contains:
 - Session 7 – Validation cleanup
 - Session 8 – Error handling / better status codes
 - Session 9 – Authentication intro
+- Session 10 – Frontend planning
+- Session 11 – Simple React frontend setup
+- Session 12 – Connect frontend to API with dummy API key
+- Stretch – Local image handling / cover uploads
