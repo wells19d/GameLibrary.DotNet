@@ -10,8 +10,9 @@ A personal game library API built with ASP.NET Core, Entity Framework Core, and 
 - Create games
 - View all games
 - View a single game
+- Filter games by title, genre, rating, studio (Publisher, Developer, Franchise), or release date
 - Update games
-- Partially update games
+- ~~Partially update games (PATCH endpoint)~~ - Removed due to ambiguity between omitted and intentionally empty values.
 - Delete games
 - SQLite database persistence
 - Swagger API documentation
