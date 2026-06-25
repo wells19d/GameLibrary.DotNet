@@ -19,7 +19,7 @@ namespace GameLibrary.DotNet.Controllers
         // This gets the games array
         // Supports filtering, sorting, and pagination
         [HttpGet]
-        public List<Game> GetGames(
+        public IActionResult GetGames( // updated from List<Game> GetGames for Metadata building
             string? filterBy, // added for filtering
             string? search, // added for filtering
             bool? earlyAccess, // added for filtering
@@ -104,11 +104,40 @@ namespace GameLibrary.DotNet.Controllers
                 pageSize = 50;
             }
 
+            // Metadata:
+            // How many games does this library have?
+            var totalGames = games.Count();
+            // How many pages do we have?
+            var totalPages = (int)Math.Ceiling(totalGames / (double)pageSize);
+
             // Now, let's paginate the results. By default, page 1 returns the first 20 titles.
             var skipAmount = (page - 1) * pageSize;
-            games = games.Skip(skipAmount).Take(pageSize);
 
-            return games.ToList();
+            //games = games.Skip(skipAmount).Take(pageSize); // changed for Metadata building.
+            var pagedGames = games.Skip(skipAmount).Take(pageSize).ToList();
+
+            // Metadata Example we want
+            /*
+             {
+                "page": 1,
+                "pageSize": 2,
+                "totalGames": 4,
+                "totalPages": 2,
+                "games": [
+                { "title": "Title 1" },
+                { "title": "Title 2" }
+                ]}
+            */
+
+            //return games.ToList(); // changed for Metadata building
+            return Ok(new
+            {
+                page,
+                pageSize,
+                totalGames,
+                totalPages,
+                games = pagedGames
+            });
         }
 
         // This saves a new game
