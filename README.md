@@ -22,6 +22,7 @@ A personal game library API built with ASP.NET Core, Entity Framework Core, and 
   - Protects against page 0 requests
   - Defaults to 20 games per page
   - Maxes out at 50 games per page
+  - Returns metadata page, page size, total games, total pages, and the array of filtered games
 
 ## Removals 
 - Partially update games (PATCH endpoint)
