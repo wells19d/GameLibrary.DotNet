@@ -148,7 +148,7 @@ namespace GameLibrary.DotNet.Controllers
         // Replaced with CreateGameDto to control what fields can be submitted
         // public Game CreateGame(Game game)
 
-        public Game CreateGame(CreateGameDto gameDto) // Using updated DTO
+        public Game CreateGame(CreateGameDTO gameDto) // Using updated DTO
         {
             var game = new Game
             {
