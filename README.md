@@ -96,9 +96,15 @@ A game contains:
 - Session 7 - Validation cleanup
   - Implemented validation for CreateGameDto and UpdateGameDto using data annotations. Added custom validation attributes for specific fields like Rating and ReleaseDate.
 
+- Session 8 - Error handling / better status codes
+  - Improved API response handling and status codes.
+	- POST now returns  201 Created
+	- PUT now returns  200 OK or 404 Not Found
+	- DELETE now returns 204 No Content or 404 Not Found.
+	- Swagger response types added for clearer API documentation.
+
 ### Upcoming
 
-- Session 8 – Error handling / better status codes
 - Session 9 – Authentication intro
 - Session 10 – Frontend planning
 - Session 11 – Simple React frontend setup

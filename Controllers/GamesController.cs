@@ -141,14 +141,34 @@ namespace GameLibrary.DotNet.Controllers
             });
         }
 
+        // This gets one game by id
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Game), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetGame(int id)
+        {
+            var game = _context.Games.FirstOrDefault(g => g.Id == id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(game);
+        }
+
+
         // This saves a new game
         [HttpPost]
 
         // Old method accepted Game directly, including Id
         // Replaced with CreateGameDto to control what fields can be submitted
         // public Game CreateGame(Game game)
+        // public Game CreateGame(CreateGameDTO gameDto) // change to IActionResult for better response handling
 
-        public Game CreateGame(CreateGameDTO gameDto) // Using updated DTO
+        [ProducesResponseType(typeof(Game), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult CreateGame(CreateGameDTO gameDto)
         {
             var game = new Game
             {
@@ -168,23 +188,29 @@ namespace GameLibrary.DotNet.Controllers
             _context.Games.Add(game);
             _context.SaveChanges();
 
-            return game;
+            //return game; // changed to return CreatedAtAction for better response handling
+            return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
         }
 
 
         // This updates a game by id.
-        // (whole object is needed)
         [HttpPut("{id}")]
+
         // Old method accepted Game directly, including Id
         // Replaced with UpdateGameDto to control what fields can be submitted
         //public List<Game> UpdateGame(int id, Game updateGame)
-        public List<Game> UpdateGame(int id, UpdateGameDTO updateGame) // Using updated DTO
+        //public List<Game> UpdateGame(int id, UpdateGameDTO updateGame) // change to IActionResult for better response handling
+
+        [ProducesResponseType(typeof(Game), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult UpdateGame(int id, UpdateGameDTO updateGame)
         {
             var game = _context.Games.FirstOrDefault(g => g.Id == id);
 
             if (game == null)
             {
-                return _context.Games.ToList();
+                return NotFound();
             }
 
             game.Title = updateGame.Title;
@@ -200,7 +226,8 @@ namespace GameLibrary.DotNet.Controllers
             game.CoverImage = updateGame.CoverImage ?? string.Empty;
             _context.SaveChanges();
 
-            return _context.Games.ToList();
+            //return _context.Games.ToList(); // changed to return CreatedAtAction for better response handling
+            return Ok(game);
         }
 
         // Originally had an option that we could just update one field, 
@@ -269,19 +296,23 @@ namespace GameLibrary.DotNet.Controllers
 
         // This deletes a game by id
         [HttpDelete("{id}")]
-        public List<Game> DeleteGame(int id)
+        //public List<Game> DeleteGame(int id) // change to IActionResult for better response handling
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteGame(int id)
         {
             var game = _context.Games.FirstOrDefault(g => g.Id == id);
 
             if (game == null)
             {
-                return _context.Games.ToList();
+                return NotFound();
             }
 
             _context.Games.Remove(game);
             _context.SaveChanges();
 
-            return _context.Games.ToList();
+            return NoContent();
         }
 
     }
