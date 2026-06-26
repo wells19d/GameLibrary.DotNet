@@ -2,8 +2,12 @@ using GameLibrary.DotNet.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Get the local API key from user-secrets.
+// This keeps the key out of GitHub and away from the source code.
 var apiKey = builder.Configuration["Auth:ApiKey"];
 
+// If the key is missing, stop the app early so we know what went wrong.
 if (string.IsNullOrWhiteSpace(apiKey))
 {
     throw new Exception("Auth:ApiKey is missing. Add it with dotnet user-secrets.");
@@ -23,6 +27,8 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.EnableAnnotations();
 
+    // Adds an API key option to Swagger.
+    // This creates the Authorize button and tells Swagger to send X-API-Key in the request header.
     options.AddSecurityDefinition("ApiKey", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Description = "Enter your API key.",
@@ -32,6 +38,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "ApiKeyScheme"
     });
 
+    // Tells Swagger to apply the API key security option to the endpoints.
     options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
@@ -59,6 +66,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Simple API key middleware.
+// GET requests stay public.
+// POST, PUT, and DELETE require the X-API-Key header to match the local user-secret.
 app.Use(async (context, next) =>
 {
     var method = context.Request.Method;

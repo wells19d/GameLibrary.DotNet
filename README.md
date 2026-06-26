@@ -103,9 +103,13 @@ A game contains:
 	- DELETE now returns 204 No Content or 404 Not Found.
 	- Swagger response types added for clearer API documentation.
 
+- Session 9 - API Key Protection
+  - Added local API key protection using .NET user-secrets. 
+  - POST, PUT, and DELETE now require an X-API-Key header, returns 401 Unauthorized.
+  - Swagger updated with an Authorize button for testing protected endpoints.
+
 ### Upcoming
 
-- Session 9 – Authentication intro
 - Session 10 – Frontend planning
 - Session 11 – Simple React frontend setup
 - Session 12 – Connect frontend to API with dummy API key

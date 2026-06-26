@@ -168,6 +168,7 @@ namespace GameLibrary.DotNet.Controllers
 
         [ProducesResponseType(typeof(Game), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult CreateGame(CreateGameDTO gameDto)
         {
             var game = new Game
@@ -203,6 +204,7 @@ namespace GameLibrary.DotNet.Controllers
 
         [ProducesResponseType(typeof(Game), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult UpdateGame(int id, UpdateGameDTO updateGame)
         {
@@ -299,6 +301,7 @@ namespace GameLibrary.DotNet.Controllers
         //public List<Game> DeleteGame(int id) // change to IActionResult for better response handling
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult DeleteGame(int id)
         {
