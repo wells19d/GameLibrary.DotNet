@@ -107,6 +107,9 @@ A game contains:
   - Added local API key protection using .NET user-secrets. 
   - POST, PUT, and DELETE now require an X-API-Key header, returns 401 Unauthorized.
   - Swagger updated with an Authorize button for testing protected endpoints.
+  - Turned off Auth:
+	- Not needed for a local learning project
+	- Easier connection to a React Front-End project.
 
 ### Upcoming
 
