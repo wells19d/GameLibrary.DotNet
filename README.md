@@ -93,9 +93,11 @@ A game contains:
 - Session 6 - DTOs & Model Binding
   - Added CreateGameDto and UpdateGameDto to the POST and PUT endpoints. The controller now maps DTO fields into the real Game model manually, preventing the request body from controlling Id.
 
+- Session 7 - Validation cleanup
+  - Implemented validation for CreateGameDto and UpdateGameDto using data annotations. Added custom validation attributes for specific fields like Rating and ReleaseDate.
+
 ### Upcoming
 
-- Session 7 – Validation cleanup
 - Session 8 – Error handling / better status codes
 - Session 9 – Authentication intro
 - Session 10 – Frontend planning
